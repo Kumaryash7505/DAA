@@ -1,33 +1,47 @@
-#include <stdio.h>
-
-int main()
+import java.util.*;
+class table
 {
-    int t,m=0,n,c,i;
-    scanf("%d",&t);
-    while(m<=t){
-        c=0;
-        scanf("%d",&n);
-        int arr[n];
-        for( i=0;i<n;i++){
-            scanf("%d",&arr[i]);
+    synchronized void printtable(int n)
+    {
+        for(int i=0;i<=5;i++)
+        {
+          System.out.println(i*n);
         }
-        int key;
-        scanf("%d",&key);
-         for( i=0;i<n;i++){
-             c++;
-            if(key==arr[i]){
-                printf("Key found\n");
-                printf("Comparisions : %d",c);
-                break;
-            }
-         }
-         if(i==n){
-            printf("Key not found\n");
-            printf("Comparisions : %d",c);
-         }
-
-        m++;
-        printf("\n");
     }
 }
-    
+class A extends Thread{
+    table t;
+     A(table t)
+     {
+        this.t=t;
+     }
+    public void run()
+    {
+        t.printtable(10);
+    }
+}
+class B extends Thread{
+    table t;
+    B(table t)
+    {
+       this.t=t;
+    }
+    public void run()
+    {
+       t.printtable(10);
+    }
+}
+public class Practice {
+    public static void main(String []args)
+    {
+        table t=new table();
+          A obj=new A(t);
+         
+          B obj1 =new B(t);
+          obj.setName("hii");
+
+          obj.start();
+          obj1.start();
+    }
+}
+      
