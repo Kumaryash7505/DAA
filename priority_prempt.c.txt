@@ -1,0 +1,78 @@
+#include <stdio.h>
+int main()
+{
+    int at[100], bt[100], wt[100], tat[100], ct[100], p[100] , bt2[100];
+
+    int n;
+    printf("Enter the number of processes\n");
+    scanf("%d", &n);
+    printf("AT BT prt\n");
+    for (int i = 0; i < n; i++)
+        scanf("%d%d%d", &at[i], &bt[i], &p[i]);
+    for (int i = 0; i < n; i++)
+        bt2[i] = bt[i];
+    
+    int min = 1000, ind;
+    for (int i = 0; i < n; i++)
+    {
+        if (at[i] < min)
+        {
+            min = at[i];
+            ind = i;
+        }
+    }
+    int time = 0;
+    if (bt[ind] == 1)
+    {
+        ct[ind] = at[ind] + 1;
+        time = ct[ind];
+        tat[ind] = ct[ind] - at[ind];
+        wt[ind] = tat[ind] - bt2[ind];
+
+        bt[ind] = 0;
+        at[ind] = -1;
+    }
+    else
+    {// bt[ind] != 1
+        time = at[ind] + 1;
+        bt[ind]--;
+    }
+    // printf("%d %d", at[ind], bt[ind]);
+    while (1)
+    {
+        int max = 0, flag = 0;
+        min = 1000;
+        for (int i = 0; i < n; i++)
+        {
+            if (at[i] != -1 && at[i] <= time &&  p[i] > max)
+            {
+                flag = 1;
+                max = p[i];
+                min = at[i];
+                ind = i;
+            }
+        }
+        if (flag == 0)
+            break;
+        if (bt[ind] == 1)
+        {
+            time++;
+            ct[ind] = time;
+            tat[ind] = ct[ind] - at[ind];
+            wt[ind] = tat[ind] - bt2[ind];
+            bt[ind] = 0;
+            at[ind] = -1;
+        }
+        else
+        {
+            time++;
+            bt[ind]--;
+        }
+    }
+
+
+    printf("\n");
+    printf("ct \t tat \t wt\n");
+    for (int i = 0; i < n; i++)
+        printf("\n%d \t %d \t %d", ct[i], tat[i],wt[i]);
+}
